@@ -48,7 +48,7 @@ Also on the dashboard you can find:
 -throughput
 -timeseries graphs and tables
 
-![image](https://user-images.githubusercontent.com/76432241/135266292-fc6cbf5c-742b-4685-8ca6-f63f312281f9.png)
+![image](https://user-images.githubusercontent.com/76432241/135269362-4beb8cda-1419-42eb-97d2-45d0bf22879a.png)
 
 Also on top of the dashboards there are several buttons:
 - You can mark the test results as a baseline. To do this, please enter the RFC number or leave it blank. Then click on the "Mark as a baseline" button.
