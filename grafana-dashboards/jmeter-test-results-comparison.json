@@ -1,0 +1,611 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "This dashboard shows live load test metrics provided by JMeter, updated bars charts.",
+  "editable": true,
+  "gnetId": 13644,
+  "graphTooltip": 1,
+  "id": 34,
+  "iteration": 1632915135016,
+  "links": [],
+  "panels": [
+    {
+      "datasource": "InfluxDB",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": null,
+            "displayMode": "auto",
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 114,
+      "options": {
+        "frameIndex": 1,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Metric"
+          }
+        ]
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "avg_rt_current = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${current_testId}\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> toFloat() \r\n  |> mean()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"1. Avg response time\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\navg_rt_baseline = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${baseline_testId}\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> toFloat() \r\n  |> mean()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"1. Avg response time\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\navg_rt = join(tables: {d1: avg_rt_current, d2: avg_rt_baseline}, on: [\"Metric\"])\r\n  |> rename(columns: {\"Value_d1\": \"Current\"})\r\n  |> rename(columns: {\"Value_d2\": \"Baseline\"})\r\n\r\nmedian_rt_current = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${current_testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> toFloat() \r\n  |> median()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"2. Median response time\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\nmedian_rt_baseline = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${baseline_testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> toFloat() \r\n  |> median()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"2. Median response time\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\nmedian_rt = join(tables: {d1: median_rt_current, d2: median_rt_baseline}, on: [\"Metric\"])\r\n  |> rename(columns: {\"Value_d1\": \"Current\"})\r\n  |> rename(columns: {\"Value_d2\": \"Baseline\"})\r\n\r\nrps_current = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"request\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${current_testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> aggregateWindow(every: 1s, fn: count, createEmpty: false)   \r\n  |> toFloat() \r\n  |> mean()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"4. Requests per second (+ static resources)\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\nrps_baseline = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"request\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${baseline_testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> aggregateWindow(every: 1s, fn: count, createEmpty: false)   \r\n  |> toFloat() \r\n  |> mean()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"4. Requests per second (+ static resources)\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\nrps = join(tables: {d1: rps_current, d2: rps_baseline}, on: [\"Metric\"])\r\n  |> rename(columns: {\"Value_d1\": \"Current\"})\r\n  |> rename(columns: {\"Value_d2\": \"Baseline\"})\r\n\r\ntps_current = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"transaction\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${current_testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> aggregateWindow(every: 1s, fn: count, createEmpty: false)   \r\n  |> toFloat() \r\n  |> mean()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"3. Transactions per second\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\ntps_baseline = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"transaction\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${baseline_testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> aggregateWindow(every: 1s, fn: count, createEmpty: false)   \r\n  |> toFloat() \r\n  |> mean()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"3. Transactions per second\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\ntps = join(tables: {d1: tps_current, d2: tps_baseline}, on: [\"Metric\"])\r\n  |> rename(columns: {\"Value_d1\": \"Current\"})\r\n  |> rename(columns: {\"Value_d2\": \"Baseline\"})\r\n\r\ntotal_r_current = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"request\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${current_testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> count()\r\n  |> toFloat()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"6. Total requests served (+ static resources)\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\ntotal_r_baseline = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"request\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${baseline_testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> count()\r\n  |> toFloat()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"6. Total requests served (+ static resources)\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\ntotal_r = join(tables: {d1: total_r_current, d2: total_r_baseline}, on: [\"Metric\"])\r\n  |> rename(columns: {\"Value_d1\": \"Current\"})\r\n  |> rename(columns: {\"Value_d2\": \"Baseline\"})\r\n\r\ntotal_t_current = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"transaction\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${current_testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> count()\r\n  |> toFloat()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"5. Total transactions served\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\ntotal_t_baseline = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"transaction\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${baseline_testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> count()\r\n  |> toFloat()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"5. Total transactions served\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\ntotal_t = join(tables: {d1: total_t_current, d2: total_t_baseline}, on: [\"Metric\"]) \r\n  |> rename(columns: {\"Value_d1\": \"Current\"})\r\n  |> rename(columns: {\"Value_d2\": \"Baseline\"})\r\n\r\nunion(tables: [avg_rt, median_rt, rps, tps, total_r, total_t])",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "title": "Stats ",
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "datasource": "InfluxDB",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 85,
+      "panels": [],
+      "title": "Aggregate Report (ms)",
+      "type": "row"
+    },
+    {
+      "datasource": "InfluxDB",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto"
+          },
+          "decimals": 2,
+          "displayName": "",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "4. Diff,%"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "orange",
+                      "value": 0.15
+                    },
+                    {
+                      "color": "red",
+                      "value": 0.4
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "lcd-gauge"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "5. Diff,ms"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "ms"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 300
+                    },
+                    {
+                      "color": "red",
+                      "value": 500
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "lcd-gauge"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 0,
+        "y": 11
+      },
+      "id": 83,
+      "links": [],
+      "options": {
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "1. Transaction"
+          }
+        ]
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "current_test = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${current_testId}\")\r\n  |> group(columns: [\"transaction\"])\r\n  |> rename(columns: {\"transaction\": \"1. Transaction\"})\r\n  |> toFloat()\r\n  |> median()\r\n  |> rename(columns: {\"_value\": \"Acurrent\"})\r\n  |> keep(columns: [\"Acurrent\", \"1. Transaction\"])\r\n\r\n\r\nbaseline_test = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${baseline_testId}\")\r\n  |> group(columns: [\"transaction\"])\r\n  |> rename(columns: {\"transaction\": \"1. Transaction\"})\r\n  |> toFloat()\r\n  |> median()\r\n  |> rename(columns: {\"_value\": \"Baseline\"})\r\n  |> keep(columns: [\"Baseline\", \"1. Transaction\"])\r\n\r\njoin(tables: {d1: current_test, d2: baseline_test}, on: [\"1. Transaction\"])\r\n  |> map(fn: (r) => ({ r with \"Diff,ms\": float(v: r.Acurrent)-float(v: r.Baseline)  }))\r\n  |> map(fn: (r) => ({ r with \"Diff,%\": float(v: r.Acurrent)/float(v: r.Baseline)-float(v: 1)  }))\r\n  |> rename(columns: {\"Acurrent\": \"2. Current\"})\r\n  |> rename(columns: {\"Baseline\": \"3. Baseline\"})\r\n  |> rename(columns: {\"Diff,ms\": \"5. Diff,ms\"})\r\n  |> rename(columns: {\"Diff,%\": \"4. Diff,%\"})\r\n  |> group(columns: [\"transaction\"])\r\n",
+          "refId": "4",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeShift": null,
+      "title": "Median",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {
+            "reducers": []
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": "InfluxDB",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto"
+          },
+          "decimals": 2,
+          "displayName": "",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "4. Diff,%"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "orange",
+                      "value": 0.15
+                    },
+                    {
+                      "color": "red",
+                      "value": 0.4
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "lcd-gauge"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "5. Diff,ms"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "ms"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 300
+                    },
+                    {
+                      "color": "red",
+                      "value": 500
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "lcd-gauge"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 12,
+        "y": 11
+      },
+      "id": 115,
+      "links": [],
+      "options": {
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "4. Diff,%"
+          }
+        ]
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "current_test = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${current_testId}\")\r\n  |> group(columns: [\"transaction\"])\r\n  |> rename(columns: {\"transaction\": \"1. Transaction\"})\r\n  |> toFloat()\r\n  |> mean()\r\n  |> rename(columns: {\"_value\": \"Acurrent\"})\r\n  |> keep(columns: [\"Acurrent\", \"1. Transaction\"])\r\n\r\n\r\nbaseline_test = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${baseline_testId}\")\r\n  |> group(columns: [\"transaction\"])\r\n  |> rename(columns: {\"transaction\": \"1. Transaction\"})\r\n  |> toFloat()\r\n  |> mean()\r\n  |> rename(columns: {\"_value\": \"Baseline\"})\r\n  |> keep(columns: [\"Baseline\", \"1. Transaction\"])\r\n\r\njoin(tables: {d1: current_test, d2: baseline_test}, on: [\"1. Transaction\"])\r\n  |> map(fn: (r) => ({ r with \"Diff,ms\": float(v: r.Acurrent)-float(v: r.Baseline)  }))\r\n  |> map(fn: (r) => ({ r with \"Diff,%\": float(v: r.Acurrent)/float(v: r.Baseline)-float(v: 1)  }))\r\n  |> rename(columns: {\"Acurrent\": \"2. Current\"})\r\n  |> rename(columns: {\"Baseline\": \"3. Baseline\"})\r\n  |> rename(columns: {\"Diff,ms\": \"5. Diff,ms\"})\r\n  |> rename(columns: {\"Diff,%\": \"4. Diff,%\"})\r\n  |> group(columns: [\"transaction\"])\r\n",
+          "refId": "4",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeShift": null,
+      "title": "Average",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {
+            "reducers": []
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 30,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "DCP",
+          "value": "DCP"
+        },
+        "datasource": "InfluxDB",
+        "definition": "import \"influxdata/influxdb/schema\"\r\n\r\nschema.measurementTagValues(\r\n  bucket: v.bucket,\r\n  measurement: \"samples\",\r\n  tag: \"testProfile\"\r\n)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "testProfile",
+        "multi": false,
+        "name": "testProfile",
+        "options": [],
+        "query": "import \"influxdata/influxdb/schema\"\r\n\r\nschema.measurementTagValues(\r\n  bucket: v.bucket,\r\n  measurement: \"samples\",\r\n  tag: \"testProfile\"\r\n)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "20210916-0515-DCP",
+          "value": "20210916-0515-DCP"
+        },
+        "datasource": "InfluxDB",
+        "definition": "import \"influxdata/influxdb/schema\"\r\n\r\nschema.tagValues(\r\n  bucket: v.bucket,\r\n  tag: \"testId\",\r\n  predicate: (r) => r._measurement == \"tests\" and r.testProfile == \"${testProfile}\"\r\n)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Baseline Test Id",
+        "multi": false,
+        "name": "baseline_testId",
+        "options": [],
+        "query": "import \"influxdata/influxdb/schema\"\r\n\r\nschema.tagValues(\r\n  bucket: v.bucket,\r\n  tag: \"testId\",\r\n  predicate: (r) => r._measurement == \"tests\" and r.testProfile == \"${testProfile}\"\r\n)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 4,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "20210916-0515-DCP",
+          "value": "20210916-0515-DCP"
+        },
+        "datasource": "InfluxDB",
+        "definition": "import \"influxdata/influxdb/schema\"\r\n\r\nschema.tagValues(\r\n  bucket: v.bucket,\r\n  tag: \"testId\",\r\n  predicate: (r) => r._measurement == \"samples\" and r.testProfile == \"${testProfile}\"\r\n)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Current Test Id",
+        "multi": false,
+        "name": "current_testId",
+        "options": [],
+        "query": "import \"influxdata/influxdb/schema\"\r\n\r\nschema.tagValues(\r\n  bucket: v.bucket,\r\n  tag: \"testId\",\r\n  predicate: (r) => r._measurement == \"samples\" and r.testProfile == \"${testProfile}\"\r\n)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 4,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "transaction",
+          "value": "transaction"
+        },
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sample Type",
+        "multi": false,
+        "name": "sampleType",
+        "options": [
+          {
+            "selected": false,
+            "text": "request",
+            "value": "request"
+          },
+          {
+            "selected": true,
+            "text": "transaction",
+            "value": "transaction"
+          }
+        ],
+        "query": "request,transaction",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-90d",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "JMeter Load Test Comparison",
+  "uid": "jeter-load-test-comparison",
+  "version": 1
+}

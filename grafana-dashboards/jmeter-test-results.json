@@ -1,0 +1,3126 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "This dashboard shows live load test metrics provided by JMeter, updated bars charts.",
+  "editable": true,
+  "gnetId": 13644,
+  "graphTooltip": 1,
+  "id": 33,
+  "iteration": 1632914795873,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [
+        "main",
+        "sitecore"
+      ],
+      "targetBlank": false,
+      "title": "Main dashboard",
+      "tooltip": "",
+      "type": "dashboards",
+      "url": ""
+    }
+  ],
+  "panels": [
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 152,
+      "panels": [
+        {
+          "datasource": "InfluxDB",
+          "gridPos": {
+            "h": 2,
+            "w": 3,
+            "x": 0,
+            "y": 1
+          },
+          "id": 139,
+          "options": {
+            "backgroundColor": "#73bf6957",
+            "contentType": "application/json",
+            "foregroundColor": "#ffffff",
+            "icon": "favorite",
+            "isAuth": false,
+            "method": "GET",
+            "orientation": "center",
+            "params": [
+              [
+                "rfc",
+                "${rfc}"
+              ],
+              [
+                "status",
+                "Baseline"
+              ],
+              [
+                "testId",
+                "${testId}"
+              ]
+            ],
+            "text": "Mark as a baseline",
+            "type": "query",
+            "url": "http://10.43.30.8:5000/baseline",
+            "variant": "custom"
+          },
+          "transparent": true,
+          "type": "cloudspout-button-panel"
+        },
+        {
+          "datasource": "InfluxDB",
+          "gridPos": {
+            "h": 2,
+            "w": 4,
+            "x": 3,
+            "y": 1
+          },
+          "id": 140,
+          "options": {
+            "backgroundColor": "#ac5b0a",
+            "contentType": "application/json",
+            "foregroundColor": "#ffffff",
+            "icon": "bug",
+            "isAuth": false,
+            "method": "GET",
+            "orientation": "center",
+            "params": [
+              [
+                "status",
+                "Unacceptable"
+              ],
+              [
+                "testId",
+                "${testId}"
+              ]
+            ],
+            "text": "Mark as unacceptable",
+            "type": "query",
+            "url": "http://10.43.30.8:5000/baseline",
+            "variant": "custom"
+          },
+          "transparent": true,
+          "type": "cloudspout-button-panel"
+        },
+        {
+          "datasource": "InfluxDB",
+          "gridPos": {
+            "h": 2,
+            "w": 3,
+            "x": 7,
+            "y": 1
+          },
+          "id": 150,
+          "options": {
+            "backgroundColor": "#47215a",
+            "contentType": "application/json",
+            "foregroundColor": "#ffffff",
+            "icon": "trash-alt",
+            "isAuth": false,
+            "method": "GET",
+            "orientation": "center",
+            "params": [
+              [
+                "status",
+                "DeleteTestStatus"
+              ],
+              [
+                "testId",
+                "${testId}"
+              ]
+            ],
+            "text": "Delete test status",
+            "type": "query",
+            "url": "http://10.43.30.8:5000/baseline",
+            "variant": "custom"
+          },
+          "transparent": true,
+          "type": "cloudspout-button-panel"
+        },
+        {
+          "datasource": "InfluxDB",
+          "gridPos": {
+            "h": 2,
+            "w": 3,
+            "x": 21,
+            "y": 1
+          },
+          "id": 141,
+          "options": {
+            "backgroundColor": "red",
+            "contentType": "application/json",
+            "foregroundColor": "#ffffff",
+            "icon": "trash-alt",
+            "isAuth": false,
+            "method": "GET",
+            "orientation": "center",
+            "params": [
+              [
+                "status",
+                "DeleteTest"
+              ],
+              [
+                "testId",
+                "${testId}"
+              ]
+            ],
+            "text": "Delete test results",
+            "type": "query",
+            "url": "http://10.43.30.8:5000/baseline",
+            "variant": "custom"
+          },
+          "transparent": true,
+          "type": "cloudspout-button-panel"
+        }
+      ],
+      "title": "Buttons",
+      "type": "row"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 143,
+      "panels": [],
+      "title": "Menu",
+      "type": "row"
+    },
+    {
+      "datasource": "InfluxDB",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": null,
+            "displayMode": "auto",
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 8,
+        "x": 0,
+        "y": 2
+      },
+      "id": 114,
+      "options": {
+        "frameIndex": 1,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Metric"
+          }
+        ]
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "avg_rt = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> toFloat() \r\n  |> mean()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"1. Avg response time\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\nmedian_rt = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> toFloat() \r\n  |> median()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"2. Median response time\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\nrps = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"request\")\r\n  |> group(columns: [\"_field\"])\r\n  |> aggregateWindow(every: 1s, fn: count, createEmpty: false)   \r\n  |> toFloat() \r\n  |> mean()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"4. Requests per second (+ static resources)\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\ntps = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"transaction\")\r\n  |> group(columns: [\"_field\"])\r\n  |> aggregateWindow(every: 1s, fn: count, createEmpty: false)   \r\n  |> toFloat() \r\n  |> mean()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"3. Transactions per second\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\ntotal_r = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"request\")\r\n  |> group(columns: [\"_field\"])\r\n  |> count()\r\n  |> toFloat()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"6. Total requests served (+ static resources)\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\ntotal_t = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"transaction\")\r\n  |> group(columns: [\"_field\"])\r\n  |> count()\r\n  |> toFloat()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"5. Total transactions served\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\nlt_median = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"ttfb\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> toFloat() \r\n  |> median()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"7. Median Latency time\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\ncn_median = from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"connectTime\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> toFloat() \r\n  |> mean()\r\n  |> map(fn: (r) => ({ _value: r._value, Metric:\"8. Avg connect time\" }))\r\n  |> rename(columns: {_value: \"Value\"})\r\n\r\nunion(tables: [avg_rt, median_rt, rps, tps, total_r, total_t, lt_median, cn_median])",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "title": "Stats",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "InfluxDB",
+      "editable": true,
+      "error": false,
+      "fontSize": "90%",
+      "gridPos": {
+        "h": 12,
+        "w": 7,
+        "x": 8,
+        "y": 2
+      },
+      "height": "300",
+      "id": 145,
+      "links": [],
+      "pageSize": 50,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "$$hashKey": "object:175",
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "link": true,
+          "linkUrl": "${__cell}",
+          "mappingType": 1,
+          "pattern": "dashboard",
+          "sanitize": true,
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "$$hashKey": "object:210",
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "duration",
+          "thresholds": [],
+          "type": "number",
+          "unit": "ns"
+        },
+        {
+          "$$hashKey": "object:240",
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "startTime",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "import \"strings\"\r\n\r\ndata = from(bucket: \"jmeter\")\r\n  |> range(start: 0, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"threads\")\r\n  |> keep(columns: [\"_time\", \"_value\", \"testId\", \"testProfile\"])\r\n\r\nmaxThreads = data \r\n  |> max(column: \"_value\")\r\n  |> keep(columns: [\"_value\", \"testId\", \"testProfile\"])\r\n  |> group(columns: [\"_value\", \"testId\", \"testProfile\"])\r\n  |> rename(columns: {_value: \"maxThreads\"})\r\n\r\nendTime = data \r\n  |> max(column: \"_time\")\r\n  |> keep(columns: [\"_time\", \"testId\", \"testProfile\"])\r\n  |> group(columns: [\"_time\", \"testId\", \"testProfile\"])\r\n  |> rename(columns: {_time: \"endTime\"})\r\n\r\nstartTime = data \r\n  |> min(column: \"_time\")\r\n  |> keep(columns: [\"_time\", \"testId\", \"testProfile\"])\r\n  |> group(columns: [\"_time\", \"testId\", \"testProfile\"])\r\n  |> rename(columns: {_time: \"startTime\"})\r\n\r\njoin1 = join(tables: {d1: maxThreads, d2: startTime}, on: [\"testId\", \"testProfile\"])\r\n  |> keep(columns: [\"startTime\",\"testId\", \"testProfile\",  \"maxThreads\"])\r\n  |> group(columns: [\"testId\", \"testProfile\"])\r\n\r\njoin(tables: {d1: join1, d2: endTime}, on: [\"testId\", \"testProfile\"])\r\n  |> map(fn: (r) => ({ r with duration: (int(v: r.endTime) - int(v: r.startTime))}))\r\n  |> map(fn: (r) => ({ r with dashboard: strings.joinStr(arr: [\r\n      \"<a href=\\\"d/jmeter-test-results/jmeter-test-results?orgId=1&from=\",\r\n      string(v: int(v: r.startTime)/1000000),\"&to=\",\r\n      string(v: int(v: r.endTime)/1000000),\"&var-aggregation=60&var-sampleType=transaction&var-testId=\",\r\n      string(v: r.testId),\"&var-testProfile=\",string(v: r.testProfile),\"\\\">Dashboard</a>\"\r\n      ], \r\n      v: \"\") }))\r\n  |> keep(columns: [\"startTime\",\"testId\", \"testProfile\",  \"maxThreads\", \"duration\", \"dashboard\"])\r\n  |> group(columns: [\"testId\", \"testProfile\"])",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "title": "Test log",
+      "transform": "table",
+      "type": "table-old"
+    },
+    {
+      "datasource": "InfluxDB",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Throughput",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 6,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "always",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "reqps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 15,
+        "y": 2
+      },
+      "id": 89,
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max",
+            "min"
+          ],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "alias": "Throughput",
+          "dsType": "InfluxDB",
+          "groupBy": [
+            {
+              "params": [
+                "10s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "requestsRaw",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": " from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"status\"] == \"ko\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> aggregateWindow(every: ${aggregation}s, fn: count, createEmpty: false)   \r\n  |> toFloat() \r\n  |> map(fn: (r) => ({ r with _value: float(v: r._value /float(v: 1)) }))\r\n",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "responseTime"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "count"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Fails Throughput",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "datasource": "InfluxDB",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Virtual Users",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 6,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "always",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "meanActiveThreads"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Virtual Users"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "threads"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Virtual Users"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Virtual Users"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#B877D9",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 40
+              },
+              {
+                "id": "custom.showPoints",
+                "value": "never"
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    10,
+                    4
+                  ],
+                  "fill": "solid"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 15,
+        "y": 8
+      },
+      "id": 115,
+      "links": [],
+      "maxDataPoints": 20000,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": " from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"threads\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> aggregateWindow(every: ${aggregation}s, fn: max, createEmpty: false)\r\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\r\n  |> sort(columns: [\"_time\"], desc: false)",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Active Test Users",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "datasource": "InfluxDB",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 69,
+      "panels": [],
+      "title": "General info",
+      "type": "row"
+    },
+    {
+      "datasource": "InfluxDB",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Throughput",
+            "axisPlacement": "left",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 30,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "reqps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "threads"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Virtual Users"
+              },
+              {
+                "id": "custom.axisPlacement",
+                "value": "right"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 15
+      },
+      "id": 91,
+      "links": [],
+      "maxDataPoints": 10000,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "alias": "Throughput",
+          "dsType": "InfluxDB",
+          "groupBy": [
+            {
+              "params": [
+                "10s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "requestsRaw",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": " from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"request\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> aggregateWindow(every: ${aggregation}s, fn: count, createEmpty: false)   \r\n  |> toFloat() \r\n  |> map(fn: (r) => ({ r with _value: float(v: r._value /float(v: ${aggregation})), _field:\"Requests Per Second\" }))\r\n\r\n",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "responseTime"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "count"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": " from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"threads\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> aggregateWindow(every: ${aggregation}s, fn: max, createEmpty: false)\r\n  |> keep(columns: [\"_time\", \"_value\", \"_field\"])\r\n  |> sort(columns: [\"_time\"], desc: false)",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": " from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"transaction\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> aggregateWindow(every: ${aggregation}s, fn: count, createEmpty: false)   \r\n  |> toFloat() \r\n  |> map(fn: (r) => ({ r with _value: float(v: r._value /float(v: ${aggregation})), _field:\"Transactions Per Second\" }))",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Overall Throughput",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "datasource": "InfluxDB",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisLabel": "Throughput",
+            "axisPlacement": "left",
+            "barAlignment": 0,
+            "drawStyle": "bars",
+            "fillOpacity": 100,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "reqps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Failed Req/s"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Req/s (<2 sec)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Req/s (>2 sec)"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "yellow",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 15
+      },
+      "id": 153,
+      "links": [],
+      "maxDataPoints": 10000,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "hide": false,
+          "query": " from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"status\"] == \"ok\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> filter(fn: (r) => r[\"_value\"] <= 2000)\r\n  |> group(columns: [\"_field\"])\r\n  |> aggregateWindow(every: ${aggregation}s, fn: count, createEmpty: false)   \r\n  |> toFloat() \r\n  |> map(fn: (r) => ({ r with _value: float(v: r._value /float(v: ${aggregation})), _field:\"Req/s (<2 sec)\" }))\r\n\r\n",
+          "refId": "A"
+        },
+        {
+          "hide": false,
+          "query": " from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"status\"] == \"ok\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> filter(fn: (r) => r[\"_value\"] > 2000)\r\n  |> group(columns: [\"_field\"])\r\n  |> aggregateWindow(every: ${aggregation}s, fn: count, createEmpty: false)   \r\n  |> toFloat() \r\n  |> map(fn: (r) => ({ r with _value: float(v: r._value /float(v: ${aggregation})), _field:\"Req/s (>2 sec)\" }))\r\n\r\n",
+          "refId": "C"
+        },
+        {
+          "hide": false,
+          "query": " from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"status\"] == \"ko\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> aggregateWindow(every: ${aggregation}s, fn: count, createEmpty: false)   \r\n  |> toFloat() \r\n  |> map(fn: (r) => ({ r with _value: float(v: r._value /float(v: ${aggregation})), _field:\"Failed Req/s\" }))\r\n\r\n",
+          "refId": "B"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Throughput: ${sampleType}",
+      "transformations": [],
+      "type": "timeseries"
+    },
+    {
+      "datasource": "InfluxDB",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Response Time, ms",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 50,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "95 perc"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#F9934E",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "99 perc"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#E24D42",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Max"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#BF1B00",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Median response time"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#5794F2",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Average response time"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "#56A64B",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 25
+      },
+      "id": 28,
+      "links": [],
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean"
+          ],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "alias": "$tag_requestName",
+          "dsType": "InfluxDB",
+          "groupBy": [
+            {
+              "params": [
+                "$aggregation"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "requestsRaw",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "from(bucket: v.bucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\n  |> group(columns: [\"_field\"])\n  |> aggregateWindow(every: [[aggregation]]s, fn: median, createEmpty: false)\n  |> set(key: \"_field\",value: \"Median response time\")\n",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "responseTime"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "requestName",
+              "operator": "=~",
+              "value": "/^$request$/"
+            }
+          ]
+        },
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> aggregateWindow(every: [[aggregation]]s, fn: mean, createEmpty: false)\r\n  |> set(key: \"_field\",value: \"Average response time\")\r\n",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Response time (Latency + Processing Time)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "InfluxDB",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-blue",
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "fillOpacity": 100,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "_value"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "displayName",
+                "value": "Response times: ${sampleType}"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 25
+      },
+      "id": 154,
+      "links": [],
+      "maxDataPoints": 20000,
+      "options": {
+        "bucketOffset": 0,
+        "bucketSize": 500,
+        "combine": false,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        }
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "alias": "$tag_requestName",
+          "dsType": "InfluxDB",
+          "groupBy": [
+            {
+              "params": [
+                "$aggregation"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "requestsRaw",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "from(bucket: v.bucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\n  |> keep(columns: [\"_value\"])",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "responseTime"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "requestName",
+              "operator": "=~",
+              "value": "/^$request$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Response time (Latency + Processing Time)",
+      "type": "histogram"
+    },
+    {
+      "collapsed": true,
+      "datasource": "InfluxDB",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 35
+      },
+      "id": 44,
+      "panels": [
+        {
+          "datasource": "InfluxDB",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "Response Time, ms",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 50,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "95 perc"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "#F9934E",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "99 perc"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "#E24D42",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Max"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "#BF1B00",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Median latency"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "#E02F44",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Average latency"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "#FA6400",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 12,
+            "x": 0,
+            "y": 3
+          },
+          "id": 110,
+          "links": [],
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "pluginVersion": "8.1.2",
+          "targets": [
+            {
+              "alias": "$tag_requestName",
+              "dsType": "InfluxDB",
+              "groupBy": [
+                {
+                  "params": [
+                    "$aggregation"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "requestsRaw",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "from(bucket: v.bucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ttfb\")\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\n  |> group(columns: [\"_field\"])\n  |> aggregateWindow(every: [[aggregation]]s, fn: median, createEmpty: false)\n  |> set(key: \"_field\",value: \"Median latency\")\n",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "responseTime"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "requestName",
+                  "operator": "=~",
+                  "value": "/^$request$/"
+                }
+              ]
+            },
+            {
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "hide": false,
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"ttfb\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> aggregateWindow(every: [[aggregation]]s, fn: mean, createEmpty: false)\r\n  |> set(key: \"_field\",value: \"Average latency\")\r\n",
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Latency",
+          "type": "timeseries"
+        },
+        {
+          "datasource": "InfluxDB",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "Response Time, ms",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 50,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "95 perc"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "#F9934E",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "99 perc"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "#E24D42",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Max"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "#BF1B00",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 12,
+            "x": 12,
+            "y": 3
+          },
+          "id": 112,
+          "links": [],
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "lastNotNull",
+                "max"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "pluginVersion": "8.1.2",
+          "targets": [
+            {
+              "alias": "$tag_requestName",
+              "dsType": "InfluxDB",
+              "groupBy": [
+                {
+                  "params": [
+                    "$aggregation"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "requestsRaw",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "from(bucket: v.bucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\n  |> filter(fn: (r) => r[\"_field\"] == \"connectTime\")\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\n  |> group(columns: [\"_field\"])\n  |> aggregateWindow(every: [[aggregation]]s, fn: median, createEmpty: false)\n  |> set(key: \"_field\",value: \"Median connectTime\")\n",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "responseTime"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "requestName",
+                  "operator": "=~",
+                  "value": "/^$request$/"
+                }
+              ]
+            },
+            {
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "hide": false,
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"connectTime\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> group(columns: [\"_field\"])\r\n  |> aggregateWindow(every: [[aggregation]]s, fn: mean, createEmpty: false)\r\n  |> set(key: \"_field\",value: \"Average connectTime\")\r\n",
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Connect",
+          "type": "timeseries"
+        }
+      ],
+      "title": "Latency & Connect Over time",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 36
+      },
+      "id": 118,
+      "panels": [
+        {
+          "datasource": "InfluxDB",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "Response Time, ms",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 40,
+                "gradientMode": "opacity",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "95 perc"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "#F9934E",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "99 perc"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "#E24D42",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Max"
+                },
+                "properties": [
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "#BF1B00",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 39
+          },
+          "id": 116,
+          "links": [],
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean"
+              ],
+              "displayMode": "table",
+              "placement": "right"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "pluginVersion": "8.1.2",
+          "targets": [
+            {
+              "alias": "$tag_requestName",
+              "dsType": "InfluxDB",
+              "groupBy": [
+                {
+                  "params": [
+                    "$aggregation"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "requestsRaw",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "from(bucket: v.bucket)\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\n  |> group(columns: [\"transaction\"])\n  |> aggregateWindow(every: [[aggregation]]s, fn: median, createEmpty: false)\n",
+              "rawQuery": true,
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "responseTime"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "requestName",
+                  "operator": "=~",
+                  "value": "/^$request$/"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Response time (Latency + Processing Time) Over Time",
+          "type": "timeseries"
+        }
+      ],
+      "title": "Average Response Time Per Sample",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": "InfluxDB",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 37
+      },
+      "id": 85,
+      "panels": [
+        {
+          "datasource": "InfluxDB",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": null,
+                "displayMode": "auto",
+                "filterable": false
+              },
+              "decimals": 2,
+              "displayName": "",
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Count"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "none"
+                  },
+                  {
+                    "id": "custom.align",
+                    "value": null
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "rgba(0, 0, 0, 0)",
+                          "value": null
+                        },
+                        {
+                          "color": "rgba(183, 84, 26, 0.89)",
+                          "value": null
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "RPM"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "r/m"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.align",
+                    "value": null
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "ErrorRate"
+                },
+                "properties": [
+                  {
+                    "id": "unit",
+                    "value": "percentunit"
+                  },
+                  {
+                    "id": "decimals",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.displayMode",
+                    "value": "gradient-gauge"
+                  },
+                  {
+                    "id": "custom.align",
+                    "value": null
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green",
+                          "value": null
+                        },
+                        {
+                          "color": "yellow",
+                          "value": 5
+                        },
+                        {
+                          "color": "red",
+                          "value": 10
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Avg RT"
+                },
+                "properties": [
+                  {
+                    "id": "custom.displayMode",
+                    "value": "lcd-gauge"
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green",
+                          "value": null
+                        },
+                        {
+                          "color": "#EAB839",
+                          "value": 1000
+                        },
+                        {
+                          "color": "red",
+                          "value": 2000
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Median RT"
+                },
+                "properties": [
+                  {
+                    "id": "custom.displayMode",
+                    "value": "lcd-gauge"
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green",
+                          "value": null
+                        },
+                        {
+                          "color": "yellow",
+                          "value": 1500
+                        },
+                        {
+                          "color": "red",
+                          "value": 2000
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "90% RT"
+                },
+                "properties": [
+                  {
+                    "id": "custom.displayMode",
+                    "value": "lcd-gauge"
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green",
+                          "value": null
+                        },
+                        {
+                          "color": "#EAB839",
+                          "value": 1500
+                        },
+                        {
+                          "color": "red",
+                          "value": 2000
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "95% RT"
+                },
+                "properties": [
+                  {
+                    "id": "custom.displayMode",
+                    "value": "lcd-gauge"
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green",
+                          "value": null
+                        },
+                        {
+                          "color": "#EAB839",
+                          "value": 1500
+                        },
+                        {
+                          "color": "red",
+                          "value": 2000
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Median LT"
+                },
+                "properties": [
+                  {
+                    "id": "custom.displayMode",
+                    "value": "lcd-gauge"
+                  },
+                  {
+                    "id": "thresholds",
+                    "value": {
+                      "mode": "absolute",
+                      "steps": [
+                        {
+                          "color": "green",
+                          "value": null
+                        },
+                        {
+                          "color": "#EAB839",
+                          "value": 1500
+                        },
+                        {
+                          "color": "red",
+                          "value": 2000
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "transaction"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 300
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 10,
+            "w": 24,
+            "x": 0,
+            "y": 40
+          },
+          "id": 83,
+          "links": [],
+          "options": {
+            "showHeader": true,
+            "sortBy": [
+              {
+                "desc": true,
+                "displayName": "ErrorRate"
+              }
+            ]
+          },
+          "pluginVersion": "8.1.2",
+          "targets": [
+            {
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> group(columns: [\"transaction\"])\r\n  |> mean()\r\n  |> group()\r\n  |> rename(columns: {\"_value\": \"Avg RT\"})\r\n  |> keep(columns: [\"Avg RT\", \"transaction\"])\r\n\r\n ",
+              "refId": "3",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": []
+            },
+            {
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> group(columns: [\"transaction\"])\r\n  |> toFloat()\r\n  |> median()\r\n  |> group()\r\n  |> rename(columns: {\"_value\": \"Median RT\"})\r\n  |> keep(columns: [\"Median RT\", \"transaction\"])",
+              "refId": "4",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": []
+            },
+            {
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> group(columns: [\"transaction\"])\r\n  |> toFloat()\r\n  |> quantile(q: 0.90)\r\n  |> group()\r\n  |> rename(columns: {\"_value\": \"90% RT\"})\r\n  |> keep(columns: [\"90% RT\", \"transaction\"])",
+              "refId": "5",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": []
+            },
+            {
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> group(columns: [\"transaction\"])\r\n  |> toFloat()\r\n  |> quantile(q: 0.95)\r\n  |> group()\r\n  |> rename(columns: {\"_value\": \"95% RT\"})\r\n  |> keep(columns: [\"95% RT\", \"transaction\"])",
+              "refId": "6",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": []
+            },
+            {
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "hide": false,
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> group(columns: [\"transaction\"])\r\n  |> aggregateWindow(every: 60s, fn: count, createEmpty: true)\r\n  |> mean()\r\n  |> group()\r\n  |> rename(columns: {\"_value\": \"RPM\"})\r\n  |> keep(columns: [\"RPM\", \"transaction\"])",
+              "refId": "7",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": []
+            },
+            {
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "failuresPercentages = () => {\r\n\r\ncountResponseTime=from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> group(columns: [\"transaction\"] )\r\n  |> count()\r\n  |> group()\r\n  |> toFloat()\r\n  |> keep(columns: [\"_value\", \"transaction\"])\r\n\r\n  \r\nsumerrorCount=from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"status\"] == \"ko\")\r\n  |> group(columns: [\"transaction\"] )\r\n  |> count()\r\n  |> group()\r\n  |> toFloat()\r\n  |> keep(columns: [\"_value\", \"transaction\"])\r\n\r\n  return join(\r\n      tables:{countResponseTime:countResponseTime, sumerrorCount:sumerrorCount},\r\n      on:[\"transaction\"]\r\n    )\r\n    |> map(fn:(r) => ({\r\n             transaction: r.transaction,\r\n             ErrorRate: r._value_sumerrorCount / r._value_countResponseTime         \r\n    }))       \r\n}\r\n\r\nfailuresPercentages()",
+              "refId": "8",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": []
+            },
+            {
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "hide": false,
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"ttfb\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> group(columns: [\"transaction\"])\r\n  |> toFloat()\r\n  |> median()\r\n  |> group()\r\n  |> rename(columns: {\"_value\": \"Median LT\"})\r\n  |> keep(columns: [\"Median LT\", \"transaction\"])",
+              "refId": "9",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": []
+            },
+            {
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "hide": false,
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"${sampleType}\")\r\n  |> filter(fn: (r) => r[\"testId\"] == \"${testId}\")\r\n  |> group(columns: [\"transaction\"])\r\n  |> count()\r\n  |> group()\r\n  |> rename(columns: {\"_value\": \"Count\"})\r\n  |> keep(columns: [\"Count\", \"transaction\"])",
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "value"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": []
+            }
+          ],
+          "timeShift": null,
+          "title": "Metrics Overview (in milliseconds)",
+          "transformations": [
+            {
+              "id": "merge",
+              "options": {
+                "reducers": []
+              }
+            }
+          ],
+          "type": "table"
+        }
+      ],
+      "title": "Aggregate Report (ms)",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": "InfluxDB",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 38
+      },
+      "id": 40,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "InfluxDB",
+          "description": "",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 0,
+            "y": 7
+          },
+          "height": "300px",
+          "hiddenSeries": false,
+          "id": 58,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "total": true,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.1.2",
+          "pointradius": 2,
+          "points": true,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$tag_responseCode",
+              "dsType": "InfluxDB",
+              "groupBy": [
+                {
+                  "params": [
+                    "10s"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "requestsRaw",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "query": "from(bucket: v.bucket)\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"samples\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"duration\")\r\n  |> filter(fn: (r) => r[\"sample_type\"] == \"request\")\r\n  |> group(columns: [\"responseCode\"])\r\n  |> aggregateWindow(every: 60s, fn: count, createEmpty: false)\r\n  |> toFloat() \r\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) }))",
+              "rawQuery": true,
+              "refId": "C",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "count"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "count"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "errorMessage",
+                  "operator": "=",
+                  "value": "Null"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Codes Throughput",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:1580",
+              "format": "short",
+              "label": "Throughput",
+              "logBase": 1,
+              "max": null,
+              "min": "0",
+              "show": true
+            },
+            {
+              "$$hashKey": "object:1581",
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        }
+      ],
+      "title": "Errors details - Overview",
+      "type": "row"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 30,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "DCP",
+          "value": "DCP"
+        },
+        "datasource": "InfluxDB",
+        "definition": "import \"influxdata/influxdb/schema\"\r\n\r\nschema.measurementTagValues(\r\n  bucket: v.bucket,\r\n  measurement: \"samples\",\r\n  tag: \"testProfile\"\r\n)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "testProfile",
+        "multi": false,
+        "name": "testProfile",
+        "options": [],
+        "query": "import \"influxdata/influxdb/schema\"\r\n\r\nschema.measurementTagValues(\r\n  bucket: v.bucket,\r\n  measurement: \"samples\",\r\n  tag: \"testProfile\"\r\n)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "20210927-0856-NAVIGATOR",
+          "value": "20210927-0856-NAVIGATOR"
+        },
+        "datasource": "InfluxDB",
+        "definition": "import \"influxdata/influxdb/schema\"\r\n\r\nschema.tagValues(\r\n  bucket: v.bucket,\r\n  tag: \"testId\",\r\n  predicate: (r) => r._measurement == \"samples\" and r.testProfile == \"${testProfile}\"\r\n)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Test Id",
+        "multi": false,
+        "name": "testId",
+        "options": [],
+        "query": "import \"influxdata/influxdb/schema\"\r\n\r\nschema.tagValues(\r\n  bucket: v.bucket,\r\n  tag: \"testId\",\r\n  predicate: (r) => r._measurement == \"samples\" and r.testProfile == \"${testProfile}\"\r\n)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 4,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "transaction",
+          "value": "transaction"
+        },
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Sample Type",
+        "multi": false,
+        "name": "sampleType",
+        "options": [
+          {
+            "selected": false,
+            "text": "request",
+            "value": "request"
+          },
+          {
+            "selected": true,
+            "text": "transaction",
+            "value": "transaction"
+          }
+        ],
+        "query": "request,transaction",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "allValue": null,
+        "auto": false,
+        "current": {
+          "selected": false,
+          "text": "1m",
+          "value": "60"
+        },
+        "datasource": null,
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Aggregation Interval",
+        "multi": false,
+        "name": "aggregation",
+        "options": [
+          {
+            "selected": false,
+            "text": "1s",
+            "value": "1"
+          },
+          {
+            "selected": false,
+            "text": "10s",
+            "value": "10"
+          },
+          {
+            "selected": false,
+            "text": "30s",
+            "value": "30"
+          },
+          {
+            "selected": true,
+            "text": "1m",
+            "value": "60"
+          },
+          {
+            "selected": false,
+            "text": "10m",
+            "value": "600"
+          },
+          {
+            "selected": false,
+            "text": "30m",
+            "value": "1800"
+          },
+          {
+            "selected": false,
+            "text": "1h",
+            "value": "3600"
+          }
+        ],
+        "query": "1,10,30,60,600,1800,3600",
+        "queryValue": "",
+        "refresh": 0,
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "0",
+          "value": "0"
+        },
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "label": "RFC",
+        "name": "rfc",
+        "options": [
+          {
+            "selected": true,
+            "text": "-",
+            "value": "-"
+          }
+        ],
+        "query": "-",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "2021-09-27T08:56:52.912Z",
+    "to": "2021-09-27T09:56:48.610Z"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "utc",
+  "title": "JMeter test results",
+  "uid": "jmeter-test-results",
+  "version": 3
+}
