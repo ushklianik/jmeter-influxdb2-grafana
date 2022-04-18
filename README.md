@@ -1,26 +1,34 @@
 # About repo
 This repository contains everything you need to visualize and analyze the results of JMeter testing.
+- Grafana dashboards that allow you to manage test data in influxdb and compare different tests.
+- Python service that makes buttons clickable in Grafana and allows you to create reports in the Azure wiki.
 
-- *backend-listener* folder contains custom backend listener to send metrics to influxdb 2.0.
+Now about the structure:
+- *backend-listener* folder contains custom backend listener to send metrics to influxdb 2.
 - *grafana-dashboards* folder contains 3 grafana dashboards for different purposes.
 - *flask-grafana-buttons* folder contains python code of Flask server to make grafana buttons responsive.
 
 # Requirements
-- JMeter 5.4.1^
+- JMeter 5.4.3^
 - InfluxDB 2.0^
 - Grafana 8.1.2^
+- Java 11
+
+# Backend listener
+Note that grafana dashboards and the python service will only work with the provided JMeter backend listener. Other listeners can send JMeter data with different field/tag names, which will require you to modify the dashboards and python code.
+
+The plugin sends the following metrics to InfluxDB:
+
+- Response code
+- Error message
+- Response body of the failed requests (can be configured);
+- Connect time
+- Latency
+- The response time
+- Type of the sample: transaction/request (It is very easy to split JMeter metrics by sampler type without the need for special names and regular expressions)
 
 # First things first: JMeter
 First you need to put the backend-listener plugin to JMeter /lib/ext/ folder.
-
-I would also recommend updating the following timeout configuration in the properties file:
-
-```
-#Influxdb timeouts
-backend_influxdb.connection_timeout=3000
-backend_influxdb.socket_timeout=5000
-backend_influxdb.connection_request_timeout=1000
-```
 
 # Grafana dashboards
 When importing dashboards, do not change the uid, this will break the connection between the dashboards.
