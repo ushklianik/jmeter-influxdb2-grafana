@@ -44,16 +44,22 @@ To install plugins manually, run the following command: grafana-cli plugins inst
 If you want to install all the components using the provided docker-compose file:
 1) First you need to install Docker Engine according to one of these instructions: [Link](https://docs.docker.com/engine/install/)
 2) The next step is to install Docker Compose: [Link](https://docs.docker.com/compose/install/)
-3) Copy folder flaskPerf and docker-compose file on your server
+3) Copy folder flaskPerf and docker-compose file on your server (Note that the docker compose file must be in the same location as the flaskPerf folder)
 4) Go to the folder with docker-compose file
 5) Run the followng comand: docker-compose up -d (It will automatically install all tools and plugins)
 
 If you want to install only flask service using docker:
 1) First you need to install Docker Engine according to one of these instructions: [Link](https://docs.docker.com/engine/install/)
 2) The next step is to install Docker Compose: [Link](https://docs.docker.com/compose/install/)
-3) Copy folder flaskPerf and docker-compose file which stores only flask service on your server
+3) Copy folder flaskPerf and docker-compose file which stores only flask service on your server (Note that the docker compose file must be in the same location as the flaskPerf folder)
 4) Go to the folder with docker-compose file
-5) Run the followng comand: docker-compose up -d (It will automatically install all tools and plugins)
+5) Run the followng comand: docker-compose -f docker-compose-only-flask.yml up -d (It will automatically install all tools and plugins)
+
+If you want to install flask service without docker:
+1) Copy folder flaskPerf on your server
+2) Install python (The service was developed using python 3.9)
+3) Install all the necessary dependencies. Run command: pip3 install --upgrade pip -r requirements.txt
+4) Start flask service: python ./start.py
 
 ## Main dashboard
 The main dashboard contains 2 tables: the test log, which displays each test and creates a link to a separate dashboard with test results.
