@@ -40,6 +40,21 @@ If you will use the provided docker compose file. Grafana with all plugins will 
 
 To install plugins manually, run the following command: grafana-cli plugins install grafana-image-renderer (example)
 
+# How to install and setup
+If you want to install all the components using the provided docker-compose file:
+1) First you need to install Docker Engine according to one of these instructions: [Link](https://docs.docker.com/engine/install/)
+2) The next step is to install Docker Compose: [Link](https://docs.docker.com/compose/install/)
+3) Copy folder flaskPerf and docker-compose file on your server
+4) Go to the folder with docker-compose file
+5) Run the followng comand: docker-compose up -d (It will automatically install all tools and plugins)
+
+If you want to install only flask service using docker:
+1) First you need to install Docker Engine according to one of these instructions: [Link](https://docs.docker.com/engine/install/)
+2) The next step is to install Docker Compose: [Link](https://docs.docker.com/compose/install/)
+3) Copy folder flaskPerf and docker-compose file which stores only flask service on your server
+4) Go to the folder with docker-compose file
+5) Run the followng comand: docker-compose up -d (It will automatically install all tools and plugins)
+
 ## Main dashboard
 The main dashboard contains 2 tables: the test log, which displays each test and creates a link to a separate dashboard with test results.
 And a baseline table that represents only the baselines for each test profile.
