@@ -33,8 +33,12 @@ First you need to put the backend-listener plugin to JMeter /lib/ext/ folder.
 # Grafana dashboards
 When importing dashboards, do not change the uid, this will break the connection between the dashboards.
 
-## Requirements
-- Button Panel plugin.
+## Grafana set-up
+If you will use the provided docker compose file. Grafana with all plugins will be installed automatically. If you want to install it in some other way or use some existing Grafana. You need to make sure that the following plugins are installed:
+- cloudspout-button-panel
+- grafana-image-renderer
+
+To install plugins manually, run the following command: grafana-cli plugins install grafana-image-renderer (example)
 
 ## Main dashboard
 The main dashboard contains 2 tables: the test log, which displays each test and creates a link to a separate dashboard with test results.
