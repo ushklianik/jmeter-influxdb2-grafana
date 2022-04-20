@@ -27,12 +27,58 @@ The plugin sends the following metrics to InfluxDB:
 - The response time
 - Type of the sample: transaction/request (It is very easy to split JMeter metrics by sampler type without the need for special names and regular expressions)
 
-# First things first: JMeter
-First you need to put the backend-listener plugin to JMeter /lib/ext/ folder.
+# How to get started
+## JMeter configuration
+
+1) First you need to put the [backend-listener plugin](/backendListener/jmeter-plugin-influxdb2-listener-1.5-all.jar) to JMeter /lib/ext/ folder.
+2) Fill in all required fields:
+
+![image](https://user-images.githubusercontent.com/76432241/164194303-ae734ffa-6cb8-443f-9c03-61732518d001.png)
+
+## How to install and configure
+
+### Installation
+
+If you will use the provided docker compose file. Grafana with all plugins will be installed automatically. If you want to install it in some other way or use some existing Grafana. You need to make sure that the following plugins are installed:
+- cloudspout-button-panel
+- grafana-image-renderer
+
+To install plugins manually, run the following command: grafana-cli plugins install grafana-image-renderer (example)
+
+If you want to install all the components using the provided docker-compose file:
+1) First you need to install Docker Engine according to one of these instructions: [Link](https://docs.docker.com/engine/install/)
+2) The next step is to install Docker Compose: [Link](https://docs.docker.com/compose/install/)
+3) Copy folder flaskPerf and docker-compose file on your server (Note that the docker compose file must be in the same location as the flaskPerf folder)
+4) Go to the folder with docker-compose file
+5) Run the followng comand: docker-compose up -d (It will automatically install all tools and plugins)
+
+If you want to install only flask service using docker:
+1) First you need to install Docker Engine according to one of these instructions: [Link](https://docs.docker.com/engine/install/)
+2) The next step is to install Docker Compose: [Link](https://docs.docker.com/compose/install/)
+3) Copy folder flaskPerf and docker-compose file which stores only flask service on your server (Note that the docker compose file must be in the same location as the flaskPerf folder)
+4) Go to the folder with docker-compose file
+5) Run the followng comand: docker-compose -f docker-compose-only-flask.yml up -d (It will automatically install all tools and plugins)
+
+If you want to install flask service without docker:
+1) Copy folder flaskPerf on your server
+2) Install python (The service was developed using python 3.9)
+3) Install all the necessary dependencies. Run command: pip3 install --upgrade pip -r requirements.txt
+4) Start flask service: python ./start.py
+
+### Configuration
+
+1) When all components are installed and running. First you need to add influxdb as a data source in Gfafana. Note, Flux should be chosen as a query language.
+
+![image](https://user-images.githubusercontent.com/76432241/164196478-f02974f9-d98b-4bc3-b96a-629604184f63.png)
+
+2) Then you need to import dashboards into Grafana. When importing dashboards, do not change the uid, this will break the connection between the dashboards.
+3) Then update the flaskUrl variable, it should store a link to the Flask service. This variable is used in buttons. For example:
+
+![image](https://user-images.githubusercontent.com/76432241/164203192-f1e847d8-51c6-49fa-a570-ed29a96b607a.png)
+
+4) Now you can run tests and enjoy :)
 
 # Grafana dashboards overview
-When importing dashboards, do not change the uid, this will break the connection between the dashboards.
-## Overview of the features 
 
 ### How to find the test
 
@@ -70,32 +116,7 @@ You can also go to the comparison panel by clicking on the "Compare" button on t
 
 
 ## Grafana set-up
-If you will use the provided docker compose file. Grafana with all plugins will be installed automatically. If you want to install it in some other way or use some existing Grafana. You need to make sure that the following plugins are installed:
-- cloudspout-button-panel
-- grafana-image-renderer
 
-To install plugins manually, run the following command: grafana-cli plugins install grafana-image-renderer (example)
-
-# How to install and setup
-If you want to install all the components using the provided docker-compose file:
-1) First you need to install Docker Engine according to one of these instructions: [Link](https://docs.docker.com/engine/install/)
-2) The next step is to install Docker Compose: [Link](https://docs.docker.com/compose/install/)
-3) Copy folder flaskPerf and docker-compose file on your server (Note that the docker compose file must be in the same location as the flaskPerf folder)
-4) Go to the folder with docker-compose file
-5) Run the followng comand: docker-compose up -d (It will automatically install all tools and plugins)
-
-If you want to install only flask service using docker:
-1) First you need to install Docker Engine according to one of these instructions: [Link](https://docs.docker.com/engine/install/)
-2) The next step is to install Docker Compose: [Link](https://docs.docker.com/compose/install/)
-3) Copy folder flaskPerf and docker-compose file which stores only flask service on your server (Note that the docker compose file must be in the same location as the flaskPerf folder)
-4) Go to the folder with docker-compose file
-5) Run the followng comand: docker-compose -f docker-compose-only-flask.yml up -d (It will automatically install all tools and plugins)
-
-If you want to install flask service without docker:
-1) Copy folder flaskPerf on your server
-2) Install python (The service was developed using python 3.9)
-3) Install all the necessary dependencies. Run command: pip3 install --upgrade pip -r requirements.txt
-4) Start flask service: python ./start.py
 
 ## Main dashboard
 The main dashboard contains 2 tables: the test log, which displays each test and creates a link to a separate dashboard with test results.
