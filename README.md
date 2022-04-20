@@ -45,21 +45,21 @@ If you will use the provided docker compose file. Grafana with all plugins will 
 
 To install plugins manually, run the following command: grafana-cli plugins install grafana-image-renderer (example)
 
-If you want to install all the components using the provided docker-compose file:
+#### If you want to install all the components using the provided docker-compose file:
 1) First you need to install Docker Engine according to one of these instructions: [Link](https://docs.docker.com/engine/install/)
 2) The next step is to install Docker Compose: [Link](https://docs.docker.com/compose/install/)
 3) Copy folder flaskPerf and docker-compose file on your server (Note that the docker compose file must be in the same location as the flaskPerf folder)
 4) Go to the folder with docker-compose file
 5) Run the followng comand: docker-compose up -d (It will automatically install all tools and plugins)
 
-If you want to install only flask service using docker:
+#### If you want to install only flask service using docker:
 1) First you need to install Docker Engine according to one of these instructions: [Link](https://docs.docker.com/engine/install/)
 2) The next step is to install Docker Compose: [Link](https://docs.docker.com/compose/install/)
 3) Copy folder flaskPerf and docker-compose file which stores only flask service on your server (Note that the docker compose file must be in the same location as the flaskPerf folder)
 4) Go to the folder with docker-compose file
 5) Run the followng comand: docker-compose -f docker-compose-only-flask.yml up -d (It will automatically install all tools and plugins)
 
-If you want to install flask service without docker:
+#### If you want to install flask service without docker:
 1) Copy folder flaskPerf on your server
 2) Install python (The service was developed using python 3.9)
 3) Install all the necessary dependencies. Run command: pip3 install --upgrade pip -r requirements.txt
@@ -72,13 +72,54 @@ If you want to install flask service without docker:
 ![image](https://user-images.githubusercontent.com/76432241/164196478-f02974f9-d98b-4bc3-b96a-629604184f63.png)
 
 2) Then you need to import dashboards into Grafana. When importing dashboards, do not change the uid, this will break the connection between the dashboards.
+
+![image](https://user-images.githubusercontent.com/76432241/164203838-ce660d53-1939-4fd2-86f7-2e0394b8caa4.png)
+
 3) Then update the flaskUrl variable, it should store a link to the Flask service. This variable is used in buttons. For example:
 
 ![image](https://user-images.githubusercontent.com/76432241/164203192-f1e847d8-51c6-49fa-a570-ed29a96b607a.png)
 
-4) Now you can run tests and enjoy :)
+4) Then you need to update Flask configuration files. All config files are located in config folder.
+  - config.json: Here you need to update your Influxdb and Grafana data. Azure is only used for automatic wiki reporting. This will be described later.
+  
+![image](https://user-images.githubusercontent.com/76432241/164204601-8801e221-bf1d-43d0-b528-1e292cf001b5.png)
+ 
+  - influxdb.ini: Here you need to update your Influxdb data.
+
+![image](https://user-images.githubusercontent.com/76432241/164205184-cec6bd54-36d2-410e-83f8-32938cb05b72.png)
+
+  - users.csv: This file stores Grafana users who have access to the Flask service.
+
+![image](https://user-images.githubusercontent.com/76432241/164205539-533cef17-8a15-4ed2-adfc-cee70125f911.png)
+
+5) After updating the configuration files, restart the Flask service.
+6) Now you can run tests and enjoy :)
 
 # Grafana dashboards overview
+
+### Main dashboard
+The main dashboard contains 2 tables and trend bar charts: 
+- Test log table: which displays each test and creates a link to a separate dashboard with test results and a link to a comparison panel for comparison with the baseline.
+- Baselines table: represents latest baselines for each test name and test type.
+- Trend bar charts allow you to see how the mean, median, and 90 percentile change from test to test.
+
+![image](https://user-images.githubusercontent.com/76432241/164207036-eb084c9c-7984-4a07-9459-1cd752eecbe2.png)
+
+### JMeter test results
+This dashboard visualizes all JMeter metrics.
+Also on top of the dashboards there are several buttons:
+- You can mark the test results as a baseline. To do this, please enter the application build number or leave it blank. Then click on the "Mark as a baseline" button.
+After it, test will be displayed in Baseline table on main dashboard.
+- You can delete the test status, this means that the test will be without identifier (baseline).
+- Or you can completely delete test results.
+
+![image](https://user-images.githubusercontent.com/76432241/164211523-2a2d0191-d7ac-4746-a934-a77db73c8f99.png)
+
+## JMeter Load Test Comparison
+
+This dashboard is used to compare the current test results with the baseline.
+
+![image](https://user-images.githubusercontent.com/76432241/164211605-a35db248-a839-4d78-9fc9-e4f3209227ab.png)
 
 ### How to find the test
 
@@ -113,72 +154,3 @@ To compare the test results, first of all, you need to mark at least one baselin
 You can also go to the comparison panel by clicking on the "Compare" button on the test results dashboard.
 
 ![](/img/how-to-compare-from-dash.gif)
-
-
-## Grafana set-up
-
-
-## Main dashboard
-The main dashboard contains 2 tables: the test log, which displays each test and creates a link to a separate dashboard with test results.
-And a baseline table that represents only the baselines for each test profile.
-
-![image](https://user-images.githubusercontent.com/76432241/135265504-dbee2603-e5cc-47bb-ad3e-c40136cb1d56.png)
-
-## JMeter test results
-This dashboard visualizes all JMeter metrics.
-At the top of the dashboard you can choose:
-- testProfile: application name
-- Test Id of the test
-- Sample Type. In jmeter terminology, there are transactions and requests. For example, when you log in to the application, you perform one action or one transaction, but the browser sends several http requests to the server. Thus, a transaction is one logical action, requests are all http requests.
-- Aggregation level: granularity of the graphs
-- RFC is used when you mark test results as a baseline
-Also on the dashboard you can find:
--stats
--response times
--throughput
--timeseries graphs and tables
-
-![image](https://user-images.githubusercontent.com/76432241/135269362-4beb8cda-1419-42eb-97d2-45d0bf22879a.png)
-
-Also on top of the dashboards there are several buttons:
-- You can mark the test results as a baseline. To do this, please enter the RFC number or leave it blank. Then click on the "Mark as a baseline" button.
-After it, test will be displayed in Baseline table on main dashboard.
-- You can mark the test as "Unacceptable".
-- You can delete the test status, this means that the test will be without identifier (baseline or unacceptable).
-- Or you can completely delete test results.
-
-![image](https://user-images.githubusercontent.com/76432241/135266826-4790aa87-2d5e-43e6-8ecc-b28bda57f14e.png)
-
-To make them responsive, please update the IP address of the Flask server in buttons configuration, more on this later.
-![image](https://user-images.githubusercontent.com/76432241/135267025-a5361c11-b097-4c4b-a678-032830083b5e.png)
-
-## JMeter Load Test Comparison
-
-This dashboard is used to compare the current test results with the baseline.
-After the test is completed:
-
-- Choose testProfile
-- Baseline Test Id (Note: you need to mark at least one test as a baseline so that you can compare the test results)
-- Current Test Id
-- Sample Type
-- After you have selected all the necessary parameters, please wait a little, it will take some time to collect the metrics of both tests.
-- Then you will be able to compare stats
-- And Average and Median response times of both tests
-
-![image](https://user-images.githubusercontent.com/76432241/135267848-a4c4c178-292b-457f-9a10-c6bd3d76c58e.png)
-
-
-# Flask grafana server
-It is used to make Grafana buttons responsive, can be installed on the same server as graphana or influxdb.
-
-Libraries used:
-- influxdb_client
-- flask
-- flask_cors
-- logging
-
-Note: Don't forget to update Influxdb2 configuarion like url and token.
-
-To start the server, run start.py file, it will launch the server on port 5000 and will listen for requests from the grafana buutons and make requests to influxdb.
-
-
