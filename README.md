@@ -4,9 +4,9 @@ This repository contains everything you need to visualize and analyze the result
 - Python service that makes buttons clickable in Grafana and allows you to create reports in the Azure wiki.
 
 Now about the structure:
-- *backend-listener* folder contains custom backend listener to send metrics to influxdb 2.
-- *grafana-dashboards* folder contains 3 grafana dashboards for different purposes.
-- *flask-grafana-buttons* folder contains python code of Flask server to make grafana buttons responsive.
+- *backendListener* folder contains custom backend listener to send metrics to influxdb 2.
+- *grafanaDashboards* folder contains 3 grafana dashboards for different purposes.
+- *flaskPerf* folder contains python code of Flask server to make grafana buttons responsive.
 
 # Requirements
 - JMeter 5.4.3^
@@ -30,8 +30,44 @@ The plugin sends the following metrics to InfluxDB:
 # First things first: JMeter
 First you need to put the backend-listener plugin to JMeter /lib/ext/ folder.
 
-# Grafana dashboards
+# Grafana dashboards overview
 When importing dashboards, do not change the uid, this will break the connection between the dashboards.
+## Overview of the features 
+
+### How to find the test
+
+It is very easy to find the required time range of the test. You just need to click on the generated link in the test log table and it will automatically redirect you to a dashboard with a predefined time range of your test.
+
+![](/img/how-to-find-the-test.gif)
+
+### How to mark a test as a baseline
+
+Sometimes we need to mark a particular test as a baseline or save build id of the application under test. To do this, you need to enter the build id in the text field and click the "Mark as a baseline" button.
+
+![](/img/how-to-make-baseline.gif)
+
+### How to delete test status
+
+In case you made a mistake while saving the baseline, you can easily delete this status and reset it again.
+
+![](/img/how-to-delete-test-status.gif)
+
+### How to delete test results from db
+
+Sometimes we can conduct experimental or warm-up tests that we don't have to store in the database. In such cases, you can delete the test from influxdb by clicking on the "Delete test results" button.
+
+![](/img/how-to-delete-test-results.gif)
+
+### How to compare current test with baseline 
+
+To compare the test results, first of all, you need to mark at least one baseline test. Then you can click on the "compare" link in the test log, it will redirect you to the comparison dashboard, automatically comparing the test results with the latest baseline.
+
+![](/img/how-to-compare-from-main.gif)
+
+You can also go to the comparison panel by clicking on the "Compare" button on the test results dashboard.
+
+![](/img/how-to-compare-from-dash.gif)
+
 
 ## Grafana set-up
 If you will use the provided docker compose file. Grafana with all plugins will be installed automatically. If you want to install it in some other way or use some existing Grafana. You need to make sure that the following plugins are installed:
