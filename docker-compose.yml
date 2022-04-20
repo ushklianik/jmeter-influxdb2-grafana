@@ -20,13 +20,6 @@ services:
       - influxdb2-config:/etc/influxdb2
     ports:
       - "8086:8086"
-    environment:
-      - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=admin
-      - DOCKER_INFLUXDB_INIT_PASSWORD=Password1
-      - DOCKER_INFLUXDB_INIT_ORG=PMI
-      - DOCKER_INFLUXDB_INIT_BUCKET=sitecore
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=w2sXp3SMwBFirht6HvGQRTh6L7kh1Y6tPknGibNuHYmVKuWvbELIrXiGMNaFKfSLHLAZjBpvF9YUdiekx2dk1A==
     expose:
       - 8086
     restart: always

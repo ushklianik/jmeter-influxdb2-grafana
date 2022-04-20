@@ -1,0 +1,663 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_INFLUXDB",
+      "label": "InfluxDB",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "influxdb",
+      "pluginName": "InfluxDB"
+    }
+  ],
+  "__elements": [],
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "barchart",
+      "name": "Bar chart",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "8.3.6"
+    },
+    {
+      "type": "datasource",
+      "id": "influxdb",
+      "name": "InfluxDB",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "table-old",
+      "name": "Table (old)",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "JMeter dashboard for ClickHouse datasource",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "gnetId": 9561,
+  "graphTooltip": 1,
+  "id": null,
+  "iteration": 1650450617458,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "columns": [],
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
+      "editable": true,
+      "error": false,
+      "fontSize": "90%",
+      "gridPos": {
+        "h": 11,
+        "w": 15,
+        "x": 0,
+        "y": 0
+      },
+      "height": "300",
+      "id": 34,
+      "links": [],
+      "pageSize": 50,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "$$hashKey": "object:175",
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "link": true,
+          "linkUrl": "${__cell}",
+          "mappingType": 1,
+          "pattern": "dashboard",
+          "sanitize": true,
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "$$hashKey": "object:210",
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "duration",
+          "thresholds": [],
+          "type": "number",
+          "unit": "ns"
+        },
+        {
+          "$$hashKey": "object:240",
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "startTime",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "$$hashKey": "object:716",
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "link": true,
+          "mappingType": 1,
+          "pattern": "compare",
+          "sanitize": true,
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "import \"strings\"\r\n\r\ndata = from(bucket: v.bucket)\r\n  |> range(start: 0, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"virtualUsers\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"maxActiveThreads\")\r\n  |> keep(columns: [\"_time\", \"_value\", \"runId\", \"testName\", \"testType\"])\r\n  |> group(columns: [\"runId\", \"testName\"])\r\n  |> fill(column: \"testType\", value: \"-\")\r\n\r\nmaxThreads = data \r\n  |> max(column: \"_value\")\r\n  |> keep(columns: [\"_value\", \"runId\", \"testName\", \"testType\"])\r\n  |> group(columns: [\"_value\", \"runId\", \"testName\"])\r\n  |> rename(columns: {_value: \"maxThreads\"})\r\n\r\nendTime = data \r\n  |> max(column: \"_time\")\r\n  |> keep(columns: [\"_time\", \"runId\", \"testName\", \"testType\"])\r\n  |> group(columns: [\"_time\", \"runId\", \"testName\"])\r\n  |> rename(columns: {_time: \"endTime\"})\r\n\r\nstartTime = data \r\n  |> min(column: \"_time\")\r\n  |> keep(columns: [\"_time\", \"runId\", \"testName\", \"testType\"])\r\n  |> group(columns: [\"_time\", \"runId\", \"testName\"])\r\n  |> rename(columns: {_time: \"startTime\"})\r\n\r\njoin1 = join(tables: {d1: maxThreads, d2: startTime}, on: [\"runId\", \"testName\", \"testType\"])\r\n  |> keep(columns: [\"startTime\",\"runId\", \"testName\",  \"maxThreads\", \"testType\"])\r\n  |> group(columns: [\"runId\", \"testName\"])\r\n\r\njoin(tables: {d1: join1, d2: endTime}, on: [\"runId\", \"testName\", \"testType\"])\r\n  |> map(fn: (r) => ({ r with duration: (int(v: r.endTime) - int(v: r.startTime))}))\r\n  |> map(fn: (r) => ({ r with dashboard: strings.joinStr(arr: [\r\n      \"<a href=\\\"d/jmeter-results/jmeter-test-results?orgId=1&from=\",\r\n      string(v: int(v: r.startTime)/1000000),\"&to=\",\r\n      string(v: int(v: r.endTime)/1000000),\"&var-aggregation=60&var-sampleType=transaction&var-runId=\",  \r\n      string(v: r.runId),\"&var-testName=\",string(v: r.testName),\"\\\">Dashboard</a>\"\r\n      ], \r\n      v: \"\") }))\r\n  |> map(fn: (r) => ({ r with compare: strings.joinStr(arr: [\r\n      \"<a href=\\\"d/jmeter-comp/jmeter-load-test-comparison?orgId=1&from=\",\r\n      string(v: int(v: r.startTime)/1000000),\"&to=\",\r\n      string(v: int(v: r.endTime)/1000000),\"&var-sampleType=transaction&var-current_runId=\",  \r\n      string(v: r.runId),\"&var-testName=\",string(v: r.testName),\"\\\">Compare</a>\"\r\n      ], \r\n      v: \"\") }))\r\n  |> keep(columns: [\"startTime\",\"runId\", \"testName\",  \"maxThreads\", \"duration\", \"dashboard\", \"compare\", \"testType\"])\r\n  |> group(columns: [\"1\"])",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "title": "Test log ",
+      "transform": "table",
+      "type": "table-old"
+    },
+    {
+      "columns": [],
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
+      },
+      "editable": true,
+      "error": false,
+      "fontSize": "90%",
+      "gridPos": {
+        "h": 11,
+        "w": 9,
+        "x": 15,
+        "y": 0
+      },
+      "height": "300",
+      "id": 35,
+      "links": [],
+      "pageSize": 50,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "$$hashKey": "object:175",
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "link": true,
+          "linkUrl": "${__cell}",
+          "mappingType": 1,
+          "pattern": "dashboard",
+          "sanitize": true,
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "$$hashKey": "object:210",
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "duration",
+          "thresholds": [],
+          "type": "number",
+          "unit": "ns"
+        },
+        {
+          "$$hashKey": "object:240",
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "startTime",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "import \"strings\"\r\n\r\nfrom(bucket: v.bucket)\r\n  |> range(start: 0, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"tests\")\r\n  |> map(fn:(r) => ({ r with startTime: int(v: r.startTime) }))\r\n  |> group(columns: [\"testName\", \"testType\"])\r\n  |> max(column: \"startTime\")\r\n  |> group()\r\n  |> map(fn: (r) => ({ r with dashboard: strings.joinStr(arr: [\r\n      \"<a href=\\\"d/jmeter-results/jmeter-test-results?orgId=1&from=\",\r\n      string(v: int(v: r.startTime)),\"&to=\",\r\n      string(v: int(v: r.endTime)),\"&var-aggregation=60&var-sampleType=transaction&var-runId=\",\r\n      string(v: r.runId),\"&var-testName=\",string(v: r.testName),\"\\\">Dashboard</a>\"\r\n      ], \r\n      v: \"\") }))\r\n  |> keep(columns: [\"runId\", \"testName\", \"dashboard\", \"build\", \"testType\"])\r\n  |> fill(column: \"testType\", value: \"-\")\r\n  ",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "title": "Baselines",
+      "transform": "table",
+      "type": "table-old"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMax": 2000,
+            "axisSoftMin": 0,
+            "fillOpacity": 77,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 0
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
+      "id": 37,
+      "options": {
+        "barWidth": 0.79,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "orientation": "vertical",
+        "showValue": "always",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "query": " from(bucket: v.bucket)\r\n  |> range(start: 0, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"tests\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"avg_tr\")\r\n  |> filter(fn: (r) => r[\"testName\"] == \"${testName}\") \r\n  |> filter(fn: (r) => r[\"testType\"] == \"${testType}\") \r\n  |> toFloat() \r\n  |> keep(columns: [\"runId\", \"_value\", \"_time\"])\r\n  |> group()\r\n  |> sort(columns: [\"_time\"], desc: true)    \r\n  |> limit(n: 10)\r\n  |> sort(columns: [\"_time\"], desc: false)  \r\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Average response time | Baseline tests | ${testName} | ${testType}",
+      "type": "barchart"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMax": 2000,
+            "axisSoftMin": 0,
+            "fillOpacity": 77,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 0
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 20
+      },
+      "id": 38,
+      "options": {
+        "barWidth": 0.79,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "orientation": "vertical",
+        "showValue": "always",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "query": " from(bucket: v.bucket)\r\n  |> range(start: 0, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"tests\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"median_tr\")\r\n  |> filter(fn: (r) => r[\"testName\"] == \"${testName}\") \r\n  |> filter(fn: (r) => r[\"testType\"] == \"${testType}\") \r\n  |> toFloat() \r\n  |> keep(columns: [\"runId\", \"_value\", \"_time\"])\r\n  |> group()\r\n  |> sort(columns: [\"_time\"], desc: true)    \r\n  |> limit(n: 10)\r\n  |> sort(columns: [\"_time\"], desc: false)  ",
+          "refId": "A"
+        }
+      ],
+      "title": "Median response time | Baseline tests | ${testName} | ${testType}",
+      "type": "barchart"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMax": 2000,
+            "axisSoftMin": 0,
+            "fillOpacity": 77,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 0
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 28
+      },
+      "id": 40,
+      "options": {
+        "barWidth": 0.79,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "orientation": "vertical",
+        "showValue": "always",
+        "stacking": "none",
+        "text": {},
+        "tooltip": {
+          "mode": "single"
+        },
+        "xTickLabelRotation": 0
+      },
+      "pluginVersion": "8.1.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "query": " from(bucket: v.bucket)\r\n  |> range(start: 0, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"tests\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"percentile_tr\")\r\n  |> filter(fn: (r) => r[\"testName\"] == \"${testName}\")\r\n  |> filter(fn: (r) => r[\"testType\"] == \"${testType}\")  \r\n  |> toFloat() \r\n  |> keep(columns: [\"runId\", \"_value\", \"_time\"])\r\n  |> group()\r\n  |> sort(columns: [\"_time\"], desc: true)    \r\n  |> limit(n: 10)\r\n  |> sort(columns: [\"_time\"], desc: false)  ",
+          "refId": "A"
+        }
+      ],
+      "title": "90%-tile response time | Baseline tests | ${testName} | ${testType}",
+      "type": "barchart"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 34,
+  "style": "dark",
+  "tags": [
+    "main",
+    "sitecore"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {},
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${DS_INFLUXDB}"
+        },
+        "definition": "import \"influxdata/influxdb/schema\"\r\n\r\nschema.tagValues(\r\n  bucket: v.bucket, \r\n  tag: \"testName\",\r\n  start: -1000d\r\n)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "testName",
+        "multi": false,
+        "name": "testName",
+        "options": [],
+        "query": "import \"influxdata/influxdb/schema\"\r\n\r\nschema.tagValues(\r\n  bucket: v.bucket, \r\n  tag: \"testName\",\r\n  start: -1000d\r\n)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "definition": "import \"influxdata/influxdb/schema\"\r\n\r\nschema.tagValues(\r\n  bucket: v.bucket, \r\n  tag: \"testType\",\r\n  start: -1000d\r\n)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "testType",
+        "multi": false,
+        "name": "testType",
+        "options": [],
+        "query": "import \"influxdata/influxdb/schema\"\r\n\r\nschema.tagValues(\r\n  bucket: v.bucket, \r\n  tag: \"testType\",\r\n  start: -1000d\r\n)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query",
+        "datasource": "${DS_INFLUXDB}"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "InfluxDB",
+          "value": "InfluxDB"
+        },
+        "hide": 1,
+        "includeAll": false,
+        "multi": false,
+        "name": "InfluxdbDataSource",
+        "options": [],
+        "query": "influxdb",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "10s",
+      "1m",
+      "5m",
+      "2h"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "utc",
+  "title": "Main dashboard",
+  "uid": "sitecore",
+  "version": 4,
+  "weekStart": ""
+}
