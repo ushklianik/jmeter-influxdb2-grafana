@@ -1,0 +1,67 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version "7.1.2"
+    id 'java'
+    id 'project-report'
+    id 'idea'
+}
+
+repositories {
+    mavenCentral()
+            {
+
+                mavenCentral()
+            }
+}
+
+sourceCompatibility = 11
+version = '1.5'
+def title = 'JMeterInfluxDBListener'
+def archiveName = 'jmeter-plugin-influxdb2-listener'
+
+
+// There's a bug in JMeter leaving extra metadata right now. This is a workaround.
+class JMeterRule implements ComponentMetadataRule {
+    void execute(ComponentMetadataContext context) {
+        context.details.allVariants {
+            withDependencies {
+                removeAll { it.group == "org.apache.jmeter" && it.name == "bom" }
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation group: 'org.apache.jmeter', name: 'ApacheJMeter_core', version: '5.4.3'
+    implementation group: 'org.apache.jmeter', name: 'ApacheJMeter_java', version: '5.4.3'
+    implementation group: 'org.apache.jmeter', name: 'ApacheJMeter_components', version: '5.4.3'
+    implementation group: 'org.apache.jmeter', name: 'jorphan', version: '5.4.3'
+    implementation group: 'com.influxdb', name: 'influxdb-client-java', version: '4.0.0'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+    implementation group: 'org.apache.jmeter', name: 'ApacheJMeter_http', version: '5.4.3'
+
+
+    components {
+        withModule("org.apache.jmeter:ApacheJMeter_core", JMeterRule)
+        withModule("org.apache.jmeter:ApacheJMeter_java", JMeterRule)
+        withModule("org.apache.jmeter:ApacheJMeter_components", JMeterRule)
+        withModule("org.apache.jmeter:jorphan", JMeterRule)
+        withModule("org.apache.jmeter:ApacheJMeter", JMeterRule)
+        withModule("org.apache.jmeter:ApacheJMeter_http", JMeterRule)
+    }
+}
+
+jar {
+
+    manifest {
+        attributes 'Implementation-Title': title,
+                'Implementation-Version': archiveVersion,
+                'Main-Class': 'org.md.jmeter.influxdb.visualizer.JMeterInfluxDBBackendListenerClient'
+    }
+}
+
+shadowJar {
+    archiveBaseName.set(archiveName)
+    manifest {
+        inheritFrom project.tasks.jar.manifest
+    }
+}

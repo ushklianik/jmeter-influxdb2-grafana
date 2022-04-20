@@ -1,0 +1,22 @@
+{
+    "grafana":{
+        "grafana_server": "http://YOUR_,GRAFANA_IP:3000",
+        "grafana_token": "YOUR_GRAFANA_TOKEN",
+        "grafana_dashboard": "/d/jmeter-results/jmeter-test-results",
+        "grafana_orgId": "1"
+    },
+    "azure":{
+        "azure_personal_access_token": "k23mthqy7hidhy6feajf46pzhydhqmvoul6eykxdftbyqxzgwh3a",
+        "azure_wiki_organization_url": "https://dev.azure.com/UladzislauShklianik",
+        "azure_wiki_project": "DEMOPIPE",
+        "azure_wiki_identifier": "DEMOPIPE.wiki",
+        "azure_wiki_path": "/DEMO-TESTS"
+    },
+    "influxdb":{
+        "bucket": "YOUR_INFLUXDB_BUCKET",
+        "org": "YOUR_INFLUXDB_ORG",
+        "jmeter_metrics_measurement": "requestsRaw",
+        "jmeter_stats_measurement": "tests",
+        "jmeter_field": "responseTime"
+    }
+}

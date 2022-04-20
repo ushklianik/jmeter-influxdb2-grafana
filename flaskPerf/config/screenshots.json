@@ -1,0 +1,67 @@
+{
+    "JMeter metrics, current test":{        
+        "Requests Per Second VS Transactions Per Second":{
+            "id":"91",
+            "dash_id":"jmeter-results/jmeter-test-results",
+            "filename":"requests-per-second",
+            "width":"1000",
+            "height":"400"
+        },
+        "Overal throughput":{
+            "id":"153",
+            "dash_id":"jmeter-results/jmeter-test-results",
+            "filename":"overal-throughput",
+            "width":"1000",
+            "height":"400"
+        },
+        "Response times":{
+            "id":"28",
+            "dash_id":"jmeter-results/jmeter-test-results",
+            "filename":"response-times",
+            "width":"1000",
+            "height":"400"
+        },
+        "Errors":{
+            "id":"58",
+            "dash_id":"jmeter-results/jmeter-test-results",
+            "filename":"errors",
+            "width":"1000",
+            "height":"400"
+        }
+
+    },
+    "JMeter metrics, comparison":{
+        "Stats":{
+            "id":"114",
+            "dash_id":"jmeter-comp/jmeter-load-test-comparison",
+            "filename":"median-response-time",
+            "width":"800",
+            "height":"300"
+        },
+        "Median response time":{
+            "id":"83",
+            "dash_id":"jmeter-comp/jmeter-load-test-comparison",
+            "filename":"stats",
+            "width":"1200",
+            "height":"1200"
+        }
+    },
+    "Hardware metrics":{
+        "DEMOAPP":{
+            "CPU usage":{
+                "id":"130",
+                "dash_id":"jmeter-results/jmeter-test-results",
+                "filename":"cpu-usage",
+                "width":"1000",
+                "height":"400"
+            },
+            "Memory usage":{
+                "id":"122",
+                "dash_id":"jmeter-results/jmeter-test-results",
+                "filename":"memory-usge",
+                "width":"1000",
+                "height":"400"
+            }
+        }
+    }
+}

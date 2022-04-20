@@ -1,0 +1,13 @@
+version: '3'
+services:
+  flaskperf:
+    build: ./flaskPerf
+    container_name: flaskperf
+    environment:
+      - PYTHONUNBUFFERED=True                   
+    restart: on-failure
+    volumes:
+      - ./flaskPerf:/flaskPerf
+    ports:
+      - "5000:5000"
+    command: python start.py
