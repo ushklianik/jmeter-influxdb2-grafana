@@ -157,3 +157,26 @@ To compare the test results, first of all, you need to mark at least one baselin
 You can also go to the comparison panel by clicking on the "Compare" button on the test results dashboard.
 
 ![](/img/how-to-compare-from-dash.gif)
+
+# How to generate report in azure wiki
+
+1) First you need to update the data for integration with azure in config.json file:
+
+![image](https://user-images.githubusercontent.com/76432241/164239117-04e70f64-f88e-4894-9870-3ffc371082bc.png)
+
+2) To get azure_personal_access_token:
+    - open azure devops
+    - Click on "User settings"
+    - Click on "Personal Access Tokens"
+    - Create token with read/write permissions to wiki
+
+![image](https://user-images.githubusercontent.com/76432241/164239560-90d04a1d-565b-458a-8e7b-93aaeaebf6d9.png)
+
+3) To get azure_wiki_organization_url copy it from url
+
+![image](https://user-images.githubusercontent.com/76432241/164240848-90aeb313-4af1-4c1e-b69d-00402a717d5c.png)
+
+4) azure_wiki_project it is your project name
+5) azure_wiki_identifier = azure_wiki_project + '.wiki'
+6) azure_wiki_path it is path to parent folder, where reports should be located
+7) 
