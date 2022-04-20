@@ -1,4 +1,7 @@
 # About repo
+
+![image](https://user-images.githubusercontent.com/76432241/164237618-f5590a05-e777-423d-ba48-27aa8c3e0baf.png)
+
 This repository contains everything you need to visualize and analyze the results of JMeter testing.
 - Grafana dashboards that allow you to manage test data in influxdb and compare different tests.
 - Python service that makes buttons clickable in Grafana and allows you to create reports in the Azure wiki.
