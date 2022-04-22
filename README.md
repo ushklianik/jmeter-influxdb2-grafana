@@ -85,7 +85,7 @@ To install plugins manually, run the following command: grafana-cli plugins inst
 4) Then you need to update Flask configuration files. All config files are located in config folder.
   - config.json: Here you need to update your Influxdb and Grafana data. Azure is only used for automatic wiki reporting. This will be described later.
   
-![image](https://user-images.githubusercontent.com/76432241/164204601-8801e221-bf1d-43d0-b528-1e292cf001b5.png)
+![image](https://user-images.githubusercontent.com/76432241/164388391-e653c282-889a-4777-8c4f-be0f420193c0.png)
  
   - influxdb.ini: Here you need to update your Influxdb data.
 
@@ -162,7 +162,7 @@ You can also go to the comparison panel by clicking on the "Compare" button on t
 
 1) First you need to update the data for integration with azure in config.json file:
 
-![image](https://user-images.githubusercontent.com/76432241/164239117-04e70f64-f88e-4894-9870-3ffc371082bc.png)
+![image](https://user-images.githubusercontent.com/76432241/164388348-2cfa9e23-9c79-451c-9945-4cbeb082269b.png)
 
 2) To get azure_personal_access_token:
     - open azure devops
@@ -178,5 +178,19 @@ You can also go to the comparison panel by clicking on the "Compare" button on t
 
 4) azure_wiki_project it is your project name
 5) azure_wiki_identifier = azure_wiki_project + '.wiki'
-6) azure_wiki_path it is path to parent folder, where reports should be located
-7) 
+6) azure_wiki_path it is path to parent folder, where reports should be located. For example in this case it will be "/DEMO-TESTS/JMETER-REPORTS"
+
+![image](https://user-images.githubusercontent.com/76432241/164388757-404e4b34-fbb2-44b2-8ef7-4f3067fdc401.png)
+
+7) Now we need to configure which screenshots we need to add to our report. To do this, you need to add the panel data to the screenshots.json file.
+
+![image](https://user-images.githubusercontent.com/76432241/164392957-39285871-9e79-43cd-8fd6-812d1723d394.png)
+
+8) In the "Hardware metrics" section, we also need to specify the name of the test. Since sometimes different applications can have different environments, we can monitor different metrics.
+
+![image](https://user-images.githubusercontent.com/76432241/164393819-fddb3d6f-962d-470d-a2b6-a4b6bb4c2014.png)
+
+9) When everything is set up, you can now restart Flask service. Open comparison dashboard and click "Generate report in wiki".
+
+
+
