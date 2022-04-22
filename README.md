@@ -192,5 +192,9 @@ You can also go to the comparison panel by clicking on the "Compare" button on t
 
 9) When everything is set up, you can now restart Flask service. Open comparison dashboard and click "Generate report in wiki".
 
+![](/img/how-to-generate-report.gif)
 
+10) The report will look like this
+
+![](/img/auto-generated-wiki-report.gif)
 
