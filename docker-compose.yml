@@ -45,6 +45,7 @@ services:
      image: grafana/grafana-image-renderer:latest
      ports:
        - 8081
+     restart: always
 volumes:
    influxdb2-data:
    influxdb2-config:
