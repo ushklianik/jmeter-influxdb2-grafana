@@ -61,16 +61,12 @@
   "gnetId": 9561,
   "graphTooltip": 1,
   "id": null,
-  "iteration": 1650450617458,
+  "iteration": 1650626587058,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "columns": [],
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS_INFLUXDB}"
-      },
       "editable": true,
       "error": false,
       "fontSize": "90%",
@@ -187,7 +183,7 @@
           ],
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "import \"strings\"\r\n\r\ndata = from(bucket: v.bucket)\r\n  |> range(start: 0, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"virtualUsers\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"maxActiveThreads\")\r\n  |> keep(columns: [\"_time\", \"_value\", \"runId\", \"testName\", \"testType\"])\r\n  |> group(columns: [\"runId\", \"testName\"])\r\n  |> fill(column: \"testType\", value: \"-\")\r\n\r\nmaxThreads = data \r\n  |> max(column: \"_value\")\r\n  |> keep(columns: [\"_value\", \"runId\", \"testName\", \"testType\"])\r\n  |> group(columns: [\"_value\", \"runId\", \"testName\"])\r\n  |> rename(columns: {_value: \"maxThreads\"})\r\n\r\nendTime = data \r\n  |> max(column: \"_time\")\r\n  |> keep(columns: [\"_time\", \"runId\", \"testName\", \"testType\"])\r\n  |> group(columns: [\"_time\", \"runId\", \"testName\"])\r\n  |> rename(columns: {_time: \"endTime\"})\r\n\r\nstartTime = data \r\n  |> min(column: \"_time\")\r\n  |> keep(columns: [\"_time\", \"runId\", \"testName\", \"testType\"])\r\n  |> group(columns: [\"_time\", \"runId\", \"testName\"])\r\n  |> rename(columns: {_time: \"startTime\"})\r\n\r\njoin1 = join(tables: {d1: maxThreads, d2: startTime}, on: [\"runId\", \"testName\", \"testType\"])\r\n  |> keep(columns: [\"startTime\",\"runId\", \"testName\",  \"maxThreads\", \"testType\"])\r\n  |> group(columns: [\"runId\", \"testName\"])\r\n\r\njoin(tables: {d1: join1, d2: endTime}, on: [\"runId\", \"testName\", \"testType\"])\r\n  |> map(fn: (r) => ({ r with duration: (int(v: r.endTime) - int(v: r.startTime))}))\r\n  |> map(fn: (r) => ({ r with dashboard: strings.joinStr(arr: [\r\n      \"<a href=\\\"d/jmeter-results/jmeter-test-results?orgId=1&from=\",\r\n      string(v: int(v: r.startTime)/1000000),\"&to=\",\r\n      string(v: int(v: r.endTime)/1000000),\"&var-aggregation=60&var-sampleType=transaction&var-runId=\",  \r\n      string(v: r.runId),\"&var-testName=\",string(v: r.testName),\"\\\">Dashboard</a>\"\r\n      ], \r\n      v: \"\") }))\r\n  |> map(fn: (r) => ({ r with compare: strings.joinStr(arr: [\r\n      \"<a href=\\\"d/jmeter-comp/jmeter-load-test-comparison?orgId=1&from=\",\r\n      string(v: int(v: r.startTime)/1000000),\"&to=\",\r\n      string(v: int(v: r.endTime)/1000000),\"&var-sampleType=transaction&var-current_runId=\",  \r\n      string(v: r.runId),\"&var-testName=\",string(v: r.testName),\"\\\">Compare</a>\"\r\n      ], \r\n      v: \"\") }))\r\n  |> keep(columns: [\"startTime\",\"runId\", \"testName\",  \"maxThreads\", \"duration\", \"dashboard\", \"compare\", \"testType\"])\r\n  |> group(columns: [\"1\"])",
+          "query": "import \"strings\"\r\n\r\ndata = from(bucket: v.bucket)\r\n  |> range(start: 0, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"virtualUsers\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"maxActiveThreads\")\r\n  |> keep(columns: [\"_time\", \"_value\", \"runId\", \"testName\", \"testType\"])\r\n  |> group(columns: [\"runId\", \"testName\", \"testType\"])\r\n  |> fill(column: \"testType\", value: \"-\")\r\n\r\nmaxThreads = data \r\n  |> max(column: \"_value\")\r\n  |> keep(columns: [\"_value\", \"runId\", \"testName\", \"testType\"])\r\n  |> group(columns: [\"_value\", \"runId\", \"testName\", \"testType\"])\r\n  |> rename(columns: {_value: \"maxThreads\"})\r\n\r\nendTime = data \r\n  |> max(column: \"_time\")\r\n  |> keep(columns: [\"_time\", \"runId\", \"testName\", \"testType\"])\r\n  |> group(columns: [\"_time\", \"runId\", \"testName\", \"testType\"])\r\n  |> rename(columns: {_time: \"endTime\"})\r\n\r\nstartTime = data \r\n  |> min(column: \"_time\")\r\n  |> keep(columns: [\"_time\", \"runId\", \"testName\", \"testType\"])\r\n  |> group(columns: [\"_time\", \"runId\", \"testName\", \"testType\"])\r\n  |> rename(columns: {_time: \"startTime\"})\r\n\r\njoin1 = join(tables: {d1: maxThreads, d2: startTime}, on: [\"runId\", \"testName\", \"testType\"])\r\n  |> keep(columns: [\"startTime\",\"runId\", \"testName\",  \"maxThreads\", \"testType\"])\r\n  |> group(columns: [\"runId\", \"testName\", \"testType\"])\r\n\r\njoin(tables: {d1: join1, d2: endTime}, on: [\"runId\", \"testName\", \"testType\"])\r\n  |> map(fn: (r) => ({ r with duration: (int(v: r.endTime) - int(v: r.startTime))}))\r\n  |> map(fn: (r) => ({ r with dashboard: strings.joinStr(arr: [\r\n      \"<a href=\\\"d/jmeter-results/jmeter-test-results?orgId=1&from=\",\r\n      string(v: int(v: r.startTime)/1000000),\"&to=\",\r\n      string(v: int(v: r.endTime)/1000000),\"&var-aggregation=60&var-sampleType=transaction&var-runId=\",  \r\n      string(v: r.runId),\"&var-testName=\",string(v: r.testName),\"\\\">Dashboard</a>\"\r\n      ], \r\n      v: \"\") }))\r\n  |> map(fn: (r) => ({ r with compare: strings.joinStr(arr: [\r\n      \"<a href=\\\"d/jmeter-comp/jmeter-load-test-comparison?orgId=1&from=\",\r\n      string(v: int(v: r.startTime)/1000000),\"&to=\",\r\n      string(v: int(v: r.endTime)/1000000),\"&var-sampleType=transaction&var-current_runId=\",  \r\n      string(v: r.runId),\"&var-testName=\",string(v: r.testName),\"\\\">Compare</a>\"\r\n      ], \r\n      v: \"\") }))\r\n  |> keep(columns: [\"startTime\",\"runId\", \"testName\",  \"maxThreads\", \"duration\", \"dashboard\", \"compare\", \"testType\"])\r\n  |> group(columns: [\"1\"])",
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -658,6 +654,6 @@
   "timezone": "utc",
   "title": "Main dashboard",
   "uid": "sitecore",
-  "version": 4,
+  "version": 5,
   "weekStart": ""
 }
